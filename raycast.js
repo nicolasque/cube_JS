@@ -1,24 +1,29 @@
 const TILE_SIZE = 32;
-const MAP_NUM_ROWS = 10;
-const MAP_NUM_COL = 10;
+const MAP_NUM_ROWS = 15;
+const MAP_NUM_COL = 15;
 const WINDOW_WITH = MAP_NUM_COL * TILE_SIZE;
-const WINDOW_HEIGHT = MAP_NUM_ROWS *TILE_SIZE;
+const WINDOW_HEIGHT = MAP_NUM_ROWS * TILE_SIZE;
 
 
 class Map {
 	constructor()
 	{
 		this.grid = [
-			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-            [1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+            [1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1],
+            [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 		];
 	}
 	render() {
@@ -51,13 +56,23 @@ class Player {
 	}
 
 	render() {
+		noStroke();
 		fill("red");
 		circle(this.x,this.y, this.radius);
+		stroke("red");
+		line(this.x,
+			this.y,
+			this.x + Math.cos(this.rotationAngle) * 20,
+			this.y +Math.sin(this.rotationAngle) * 20
+		);
 	}
 
 	update(){
-		console.log(this.turnDirection);
-		console.log(this.walkDirection);
+		this.rotationAngle += this.turnDirection * this.rotatioSpeed;
+
+		var moveStep = this.walkDirection * this.moveSpeed;
+		this.x += Math.cos(this.rotationAngle) * moveStep;
+		this.y += Math.sin(this.rotationAngle) * moveStep;
 	}
 }
 
